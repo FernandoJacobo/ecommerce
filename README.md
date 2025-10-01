@@ -24,4 +24,4 @@ E-commerce completo desarrollado con Next.js, TypeScript, Node.js, Express y MyS
 - MySQL 8+
 - pnpm
 
-##### Desarrollador por By: Fernando A . Jacobo
+##### Desarrollado por: Fernando A . Jacobo
