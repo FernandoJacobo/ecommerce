@@ -38,6 +38,8 @@ export const authorize = (...roles: string[]) => {
             throw new AppError('User not authenticated', 401);
         }
 
+        console.log(req.user);
+
         if (!roles.includes(req.user.role)) {
             throw new AppError('You do not have permission to perform this action', 403);
         }
