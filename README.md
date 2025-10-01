@@ -1,6 +1,7 @@
+
 # E-commerce Full Stack
 
-E-commerce completo desarrollado con Next.js, TypeScript, Node.js, Express, Prisma y MySQL.
+E-commerce completo desarrollado con Next.js, TypeScript, Node.js, Express y MySQL.
 
 ## 🚀 Tecnologías
 
@@ -13,7 +14,6 @@ E-commerce completo desarrollado con Next.js, TypeScript, Node.js, Express, Pris
 - Node.js
 - Express
 - TypeScript
-- Prisma ORM
 - MySQL
 - JWT Authentication
 - Swagger Documentation
@@ -23,4 +23,5 @@ E-commerce completo desarrollado con Next.js, TypeScript, Node.js, Express, Pris
 - Node.js 18+
 - MySQL 8+
 - pnpm
-"# ecommerce" 
+
+##### Desarrollador por By: Fernando A . Jacobo
