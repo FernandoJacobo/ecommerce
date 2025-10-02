@@ -167,7 +167,7 @@ export default function LoginPage() {
             </div>
 
             {/* Right Side - Hero */}
-            <div className="hidden lg:flex lg:flex-1 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #022f2e 0%, #034442 100%)' }}>
+            <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #022f2e 0%, #034442 100%)' }}>
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9nPjwvc3ZnPg==')]"></div>
 
@@ -188,7 +188,7 @@ export default function LoginPage() {
 
                     {/* Features */}
                     <div className="grid grid-cols-1 gap-4 max-w-md w-full">
-                        <div className="p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-emerald-400/20 text-left">
+                        <div className="p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-emerald-400/20 text-left transition-all duration-300 hover:bg-white/10 hover:scale-105">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 rounded-lg" style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
                                     <Package className="h-5 w-5 text-white" />
@@ -200,7 +200,7 @@ export default function LoginPage() {
                             </div>
                         </div>
 
-                        <div className="p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-emerald-400/20 text-left">
+                        <div className="p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-emerald-400/20 text-left transition-all duration-300 hover:bg-white/10 hover:scale-105">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 rounded-lg" style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' }}>
                                     <Sparkles className="h-5 w-5 text-white" />

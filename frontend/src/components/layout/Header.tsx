@@ -94,7 +94,7 @@ export default function Header() {
                                         <User className="h-4 w-4 text-white" />
                                     </div>
                                     <span className="text-sm font-medium text-white">
-                                        {user?.firstName}
+                                        {user?.firstName} {user?.lastName}
                                     </span>
                                 </button>
 

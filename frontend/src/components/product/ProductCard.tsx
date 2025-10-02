@@ -130,7 +130,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </div>
 
                     <div className="flex gap-2">
-                        <Link href={`/products/${product.sku}`}>
+                        <Link href={`/products/${product.id}`}>
                             <button className="p-2.5 rounded-lg border-2 border-gray-200 hover:border-emerald-400 bg-white hover:bg-emerald-50 transition-all duration-300 hover:scale-110 group/btn">
                                 <Eye className="h-5 w-5 text-gray-600 group-hover/btn:text-emerald-600 transition-colors duration-300" />
                             </button>
