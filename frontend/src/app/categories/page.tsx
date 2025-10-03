@@ -23,6 +23,9 @@ export default function CategoriesPage() {
         setLoading(true);
         try {
             const response = await api.get<{ data: { categories: Category[] } }>('/categories');
+
+            console.log(response);
+
             setCategories(response.data.data.categories);
         } catch (error) {
             const message = getErrorMessage(error);

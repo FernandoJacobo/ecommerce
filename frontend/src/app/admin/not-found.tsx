@@ -1,13 +1,9 @@
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
 import Link from "next/link";
 import { Home, Search, Package, ArrowLeft } from "lucide-react";
 
-export default function NotFound() {
+export default function AdminNotFound() {
     return (
         <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(180deg, #f9fafb 0%, #ffffff 100%)' }}>
-            <Header />
-
             <main className="flex-1 flex items-center justify-center px-4 py-20">
                 <div className="text-center max-w-2xl">
                     {/* 404 Number */}
@@ -38,13 +34,13 @@ export default function NotFound() {
 
                     {/* Actions */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                        <Link href="/">
+                        <Link href="/admin">
                             <button className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}>
                                 <Home className="h-5 w-5" />
                                 Volver al Inicio
                             </button>
                         </Link>
-                        <Link href="/products">
+                        <Link href="/admin/products">
                             <button className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold border-2 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 bg-white hover:bg-gray-50" style={{
                                 borderColor: '#10b981',
                                 color: '#022f2e'
@@ -83,8 +79,6 @@ export default function NotFound() {
                     </div>
                 </div>
             </main>
-
-            <Footer />
         </div>
     );
 }
