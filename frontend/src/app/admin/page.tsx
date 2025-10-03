@@ -43,8 +43,8 @@ export default function AdminDashboard() {
         try {
             const [usersRes, productsRes, ordersRes] = await Promise.all([
                 api.get('/users/statistics'),
-                api.get('/products?limit=1000'),
-                api.get('/orders?limit=1000'),
+                api.get('/products?limit=100'),
+                api.get('/orders?limit=100'),
             ]);
 
             const products = productsRes.data.data.products;
