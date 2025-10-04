@@ -208,7 +208,6 @@ export class OrderService {
             const limit = filters.limit || 20;
             const offset = (page - 1) * limit;
 
-            // Construir WHERE clause
             const conditions: string[] = [];
             const values: any[] = [];
 
@@ -222,10 +221,10 @@ export class OrderService {
                 values.push(filters.status);
             }
 
-            const whereClause =
-                conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+            const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
             // Obtener total
+
             const [countResult] = await connection.execute<RowDataPacket[]>(
                 `SELECT COUNT(*) as total FROM orders o ${whereClause}`,
                 values
@@ -233,20 +232,22 @@ export class OrderService {
 
             const total = countResult[0].total;
 
-            // Obtener órdenes
-            const [orders] = await connection.execute<OrderRow[]>(
-                `SELECT 
-          o.*,
-          u.email as userEmail,
-          u.firstName as userFirstName,
-          u.lastName as userLastName
-        FROM orders o
-        INNER JOIN users u ON o.userId = u.id
-        ${whereClause}
-        ORDER BY o.createdAt DESC
-        LIMIT ? OFFSET ?`,
-                [...values, limit, offset]
-            );
+            // Obtener órdenes CON itemCount real
+            const [orders] = await connection.execute<OrderRow[]>(`
+                SELECT 
+                o.*,
+                u.email as userEmail,
+                u.firstName as userFirstName,
+                u.lastName as userLastName,
+                COUNT(oi.id) as itemCount
+                FROM orders o
+                INNER JOIN users u ON o.userId = u.id
+                LEFT JOIN order_items oi ON o.id = oi.orderId
+                ${whereClause}
+                GROUP BY o.id
+                ORDER BY o.createdAt DESC
+                LIMIT ? OFFSET ?
+            `, [...values, limit, offset]);
 
             connection.release();
 
@@ -260,6 +261,7 @@ export class OrderService {
                     firstName: order.userFirstName,
                     lastName: order.userLastName,
                 },
+                itemCount: Number(order.itemCount), // Convertir a número
             }));
 
             return {
@@ -283,17 +285,16 @@ export class OrderService {
 
         try {
             // Obtener orden
-            const [orders] = await connection.execute<OrderRow[]>(
-                `SELECT 
-          o.*,
-          u.email as userEmail,
-          u.firstName as userFirstName,
-          u.lastName as userLastName
-        FROM orders o
-        INNER JOIN users u ON o.userId = u.id
-        WHERE o.id = ?`,
-                [id]
-            );
+            const [orders] = await connection.execute<OrderRow[]>(`
+                SELECT 
+                o.*,
+                u.email as userEmail,
+                u.firstName as userFirstName,
+                u.lastName as userLastName
+                FROM orders o
+                INNER JOIN users u ON o.userId = u.id
+                WHERE o.id = ?
+            `, [id]);
 
             if (orders.length === 0) {
                 throw new AppError('Order not found', 404);
@@ -302,17 +303,16 @@ export class OrderService {
             const order = orders[0];
 
             // Obtener items de la orden
-            const [items] = await connection.execute<OrderItemRow[]>(
-                `SELECT 
-          oi.*,
-          p.name as productName,
-          p.sku as productSku,
-          p.images as productImages
-        FROM order_items oi
-        INNER JOIN products p ON oi.productId = p.id
-        WHERE oi.orderId = ?`,
-                [id]
-            );
+            const [items] = await connection.execute<OrderItemRow[]>(`
+                SELECT 
+                oi.*,
+                p.name as productName,
+                p.sku as productSku,
+                p.images as productImages
+                FROM order_items oi
+                INNER JOIN products p ON oi.productId = p.id
+                WHERE oi.orderId = ?
+            `, [id]);
 
             connection.release();
 
@@ -398,7 +398,7 @@ export class OrderService {
             values.push(id);
 
             await connection.execute(
-                `UPDATE orders SET ${updates.join(', ')}, updatedAt = CURRENT_TIMESTAMP WHERE id = ?`,
+                `UPDATE orders SET ${updates.join(', ')} WHERE id = ?`,
                 values
             );
 
@@ -406,6 +406,7 @@ export class OrderService {
             const order = await this.findById(id);
 
             connection.release();
+
             return order;
         } catch (error) {
             connection.release();

@@ -71,7 +71,7 @@ export default function AdminOrdersPage() {
 
         setUpdatingStatus(true);
         try {
-            await api.put(`/orders/${selectedOrder.id}/status`, { status });
+            await api.patch(`/orders/${selectedOrder.id}/status`, { status });
             toast.success('Estado actualizado exitosamente');
             setShowModal(false);
             loadOrders();
@@ -111,6 +111,7 @@ export default function AdminOrdersPage() {
                             className="pl-12 h-12 rounded-xl border-2 border-gray-200 focus:border-orange-400"
                         />
                     </div>
+
                     <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
@@ -172,6 +173,7 @@ export default function AdminOrdersPage() {
                                     <th className="text-left p-4 text-white font-bold">Acciones</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 {filteredOrders.map((order, index) => {
                                     const StatusIcon = statusConfig[order.status].icon;
@@ -187,33 +189,46 @@ export default function AdminOrdersPage() {
                                                     {order.orderNumber}
                                                 </div>
                                             </td>
+
                                             <td className="p-4 text-gray-600 font-medium">
                                                 {new Date(order.createdAt).toLocaleDateString('es-MX')}
                                             </td>
+
                                             <td className="p-4">
                                                 <span className="font-bold text-lg text-orange-600">
                                                     {formatPrice(order.total)}
                                                 </span>
                                             </td>
+
                                             <td className="p-4">
                                                 <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-bold ${statusConfig[order.status].color}`}>
                                                     <StatusIcon className="h-4 w-4" />
                                                     {statusConfig[order.status].label}
                                                 </span>
                                             </td>
+
                                             <td className="p-4">
                                                 <span className="px-3 py-1 rounded-lg bg-gray-100 text-gray-700 font-bold text-sm">
                                                     {order.itemCount || 0}
                                                 </span>
                                             </td>
-                                            <td className="p-4">
-                                                <button
-                                                    onClick={() => handleViewOrder(order.id)}
-                                                    className="p-2.5 rounded-xl bg-orange-100 text-orange-600 hover:bg-orange-200 transition-all duration-300 hover:scale-110"
-                                                >
-                                                    <Eye className="h-5 w-5" />
-                                                </button>
-                                            </td>
+
+                                            {order.status != 'DELIVERED' && order.status != 'CONFIRMED' ? (
+                                                <td className="p-4">
+                                                        <button
+                                                            onClick={() => handleViewOrder(order.id)}
+                                                            className="p-2.5 rounded-xl bg-orange-100 text-orange-600 hover:bg-orange-200 transition-all duration-300 hover:scale-110"
+                                                        >
+                                                        <Eye className="h-5 w-5" /> - {order.status}
+                                                    </button>
+                                                </td>
+                                            ):
+                                                <td className="p-4">
+                                                    <span className="font-bold text-gray-600">
+                                                        No Aplica
+                                                    </span>
+                                                </td>
+                                            }
                                         </tr>
                                     );
                                 })}
@@ -227,6 +242,7 @@ export default function AdminOrdersPage() {
             {showModal && selectedOrder && (
                 <>
                     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={() => setShowModal(false)} />
+
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
                             <div className="p-6 border-b-2 border-gray-100" style={{ background: 'linear-gradient(135deg, #022f2e 0%, #034442 100%)' }}>

@@ -28,6 +28,7 @@ export default function AdminCategoriesPage() {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
+        slug: ''
     });
 
     useEffect(() => {
@@ -49,15 +50,19 @@ export default function AdminCategoriesPage() {
     const handleOpenModal = (category?: Category) => {
         if (category) {
             setEditingCategory(category);
+            
             setFormData({
                 name: category.name,
                 description: category.description || '',
+                slug: category.slug || '',
             });
         } else {
             setEditingCategory(null);
+
             setFormData({
                 name: '',
                 description: '',
+                slug: '',
             });
         }
         setShowModal(true);
@@ -150,12 +155,15 @@ export default function AdminCategoriesPage() {
                     <div className="inline-flex items-center justify-center w-24 h-24 rounded-full mb-6" style={{ background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)' }}>
                         <FolderOpen className="h-12 w-12 text-gray-400" />
                     </div>
+
                     <h3 className="text-2xl font-bold mb-2" style={{ color: '#022f2e' }}>
                         {search ? 'No se encontraron categorías' : 'No hay categorías'}
                     </h3>
+                    
                     <p className="text-gray-600 mb-6 text-lg">
                         {search ? 'Intenta con otro término de búsqueda' : 'Comienza creando tu primera categoría para organizar productos'}
                     </p>
+                    
                     {!search && (
                         <Button
                             onClick={() => handleOpenModal()}
@@ -226,6 +234,7 @@ export default function AdminCategoriesPage() {
             {showModal && (
                 <>
                     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={handleCloseModal} />
+
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
                             <div className="p-6 border-b-2 border-gray-100" style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' }}>
@@ -251,6 +260,20 @@ export default function AdminCategoriesPage() {
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                             required
                                             placeholder="Ej: Electrónica, Ropa, Hogar..."
+                                            className="h-12 rounded-xl border-2"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-bold mb-2" style={{ color: '#022f2e' }}>
+                                            Slug *
+                                        </label>
+                                        <Input
+                                            type="text"
+                                            value={formData.slug}
+                                            onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                                            required
+                                            placeholder="Ej: electronica, ropa, zapatos-de-mujer..."
                                             className="h-12 rounded-xl border-2"
                                         />
                                     </div>
